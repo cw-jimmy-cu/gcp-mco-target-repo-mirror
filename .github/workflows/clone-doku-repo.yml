@@ -1,0 +1,36 @@
+name: Clone Doku Repository
+
+on:
+  schedule:
+    - cron: '0 17 * * *'  # Diese Zeile gibt an, dass die Aktion täglich um 17:00 Uhr UTC ausgeführt wird
+  workflow_dispatch:  # Ermöglicht das manuelle Auslösen der Aktion
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source repository
+        uses: actions/checkout@v3
+        with:
+          repository: pcg-gcp/gcp-mco-repo-test-mirror
+          token: ${{ secrets.GCP_MCO_SOURCE_MIRROR_TOKEN }}
+          path: source_repo
+
+      - name: Checkout source repository
+        env:
+          GCP_MCO_SOURCE_MIRROR_TOKEN: ${{ secrets.GCP_MCO_SOURCE_MIRROR_TOKEN }}
+        run: |
+          # Klone das Quell-Repository mit dem Token
+          git clone --mirror https://$GCP_MCO_SOURCE_MIRROR_TOKEN@github.com/pcg-gcp/gcp-mco-repo-test-mirror.git
+          cd gcp-mco-repo-test-mirror.git
+
+      - name: Set up push URL for target repository
+        run: git remote set-url --push origin git@github.com:cw-jimmy-cu/gcp-mco-target-repo-mirror.git
+        working-directory: gcp-mco-repo-test-mirror.git
+
+      - name: Mirror repository
+        run: |
+          git fetch -p origin
+          git push --mirror
+        working-directory: gcp-mco-repo-test-mirror.git
