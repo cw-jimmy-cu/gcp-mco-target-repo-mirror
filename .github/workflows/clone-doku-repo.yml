@@ -32,10 +32,10 @@ jobs:
 
       - name: Set up push URL for target repository
         run: git remote set-url --push origin git@github.com:cw-jimmy-cu/gcp-mco-target-repo-mirror.git
-        working-directory: gcp-mco-repo-test-mirror.git
+
 
       - name: Mirror repository
         run: |
           git fetch -p origin
           git push --mirror
-        working-directory: gcp-mco-repo-test-mirror.git
+
