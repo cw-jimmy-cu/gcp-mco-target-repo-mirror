@@ -25,6 +25,11 @@ jobs:
           git clone --mirror https://$GCP_MCO_SOURCE_MIRROR_TOKEN@github.com/pcg-gcp/gcp-mco-repo-test-mirror.git
           cd gcp-mco-repo-test-mirror.git
 
+      - name: Set up SSH for target repository
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_TARGET }}
+
       - name: Set up push URL for target repository
         run: git remote set-url --push origin git@github.com:cw-jimmy-cu/gcp-mco-target-repo-mirror.git
         working-directory: gcp-mco-repo-test-mirror.git
