@@ -1,4 +1,4 @@
-name: Mirror Repository
+name: Clone Doku Repository
 
 on:
   schedule:
@@ -10,22 +10,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout source repository
+        uses: actions/checkout@v3
+        with:
+          repository: pcg-gcp/gcp-mco-repo-test-mirror
+          token: ${{ secrets.GCP_MCO_SOURCE_MIRROR_TOKEN }}
+          path: source_repo
+
       - name: Checkout target repository
         uses: actions/checkout@v3
         with:
           repository: cw-jimmy-cu/gcp-mco-target-repo-mirror
           token: ${{ secrets.TEST_MCO_TARGET_MIRROR_TOKEN }}
-          fetch-depth: 0
+          path: target_repo
 
-      - name: Fetch source repository
-        run: |
-          git remote add source https://$GCP_MCO_SOURCE_MIRROR_TOKEN@github.com/pcg-gcp/gcp-mco-repo-test-mirror.git
-          git fetch source
-        env:
-          GCP_MCO_SOURCE_MIRROR_TOKEN: ${{ secrets.GCP_MCO_SOURCE_MIRROR_TOKEN }}
+      - name: Set up SSH for target repository
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_TARGET }}
 
       - name: Sync source with target
         run: |
-          git checkout main
+          cd target_repo
+          git remote add source ../source_repo
+          git fetch source
           git merge source/main --allow-unrelated-histories -m "Sync with source repository"
           git push origin main
