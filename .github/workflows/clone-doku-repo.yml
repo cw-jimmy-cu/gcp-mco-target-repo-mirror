@@ -35,8 +35,19 @@ jobs:
         run: |
           git config --global user.email "jimmy.cu@pcg.io"
           git config --global user.name "Jimmy Cu"
+          mkdir -p target_repo/source_content
+          
+          # Copy content from source repo to the new directory in the target repo
+          cp -r source_repo/* target_repo/source_content
+          
+          # Change to target repo directory
           cd target_repo
-          git remote add source ../source_repo
-          git fetch source
-          git merge source/main --allow-unrelated-histories -m "Sync with source repository"
+          
+          # Add changes to git
+          git add source_content
+          
+          # Commit changes
+          git commit -m "Sync with source repository"
+          
+          # Push changes
           git push origin main
