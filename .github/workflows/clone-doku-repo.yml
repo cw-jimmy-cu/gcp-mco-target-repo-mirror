@@ -33,6 +33,8 @@ jobs:
 
       - name: Sync source with target
         run: |
+          git config --global user.email "jimmy.cu@pcg.io"
+          git config --global user.name "Jimmy Cu"
           cd target_repo
           git remote add source ../source_repo
           git fetch source
