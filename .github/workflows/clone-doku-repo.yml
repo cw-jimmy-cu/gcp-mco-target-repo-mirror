@@ -16,6 +16,7 @@ jobs:
           repository: pcg-gcp/gcp-mco-repo-test-mirror
           token: ${{ secrets.GCP_MCO_SOURCE_MIRROR_TOKEN }}
           path: source_repo
+          fetch-depth: 0
 
       - name: Checkout target repository
         uses: actions/checkout@v3
@@ -23,6 +24,7 @@ jobs:
           repository: cw-jimmy-cu/gcp-mco-target-repo-mirror
           token: ${{ secrets.TEST_MCO_TARGET_MIRROR_TOKEN }}
           path: target_repo
+          fetch-depth: 0
 
       - name: Set up SSH for target repository
         uses: webfactory/ssh-agent@v0.5.3
