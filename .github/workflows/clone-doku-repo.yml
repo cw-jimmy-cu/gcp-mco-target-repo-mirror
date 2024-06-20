@@ -41,4 +41,4 @@ jobs:
           find . -mindepth 1 -not -name '.git' -exec rm -rf {} +
 
           # Copy content from source repo to the target repo
-          cp -r source_repo/* .
+          cp -r ../source_repo/* .
