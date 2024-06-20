@@ -33,36 +33,21 @@ jobs:
 
       - name: Sync source with target
         run: |
-          # git config --global user.email "jimmy.cu@pcg.io"
-          # git config --global user.name "Jimmy Cu"
-          # mkdir -p target_repo/source_content
+          git config --global user.email "jimmy.cu@pcg.io"
+          git config --global user.name "Jimmy Cu"
+          mkdir -p target_repo/source_content
           
-          # # Synchronize source with target directory
-          # rsync -av --delete source_repo/ target_repo/source_content/
-          
-          # # Change to target repo directory
-          # cd target_repo
-          
-          # # Add changes to git
-          # git add source_content
-
-          # # Commit changes
-          # git commit -m "Sync with source repository" || echo "No changes to commit"
-          
-          # # Push changes
-          # git push origin main
-
-          # Synchronize source with target
-          rsync -av --delete source_repo/ target_repo/
+          # Synchronize source with target directory
+          rsync -av --delete source_repo/ target_repo/source_content/
           
           # Change to target repo directory
           cd target_repo
-
+          
           # Add changes to git
-          git add .
+          git add source_content
 
           # Commit changes
           git commit -m "Sync with source repository" || echo "No changes to commit"
-
+          
           # Push changes
           git push origin main
