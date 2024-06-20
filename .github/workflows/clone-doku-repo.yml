@@ -2,8 +2,8 @@ name: Clone Doku Repository
 
 on:
   schedule:
-    - cron: '0 17 * * *' 
-  workflow_dispatch:  
+    - cron: '0 17 * * *'  # Tägliche Ausführung um 17 Uhr UTC
+  workflow_dispatch:  # Manuelle Auslösung
 
 jobs:
   mirror:
@@ -33,14 +33,17 @@ jobs:
 
       - name: Sync source with target
         run: |
-          # Change to target repo directory
+          git config --global user.email "jimmy.cu@pcg.io"
+          git config --global user.name "Jimmy Cu"
+          
+          # Ensure we are in the right directory
           cd target_repo
-
+          
           # Clean the target repository except for .git directory
-          find target_repo -mindepth 1 -not -name '.git' -exec rm -rf {} +
+          find . -mindepth 1 -not -name '.git' -exec rm -rf {} +
 
           # Copy content from source repo to the target repo
-          cp -r source_repo/* target_repo/
+          cp -r ../source_repo/* .
 
           # Add changes to git
           git add .
