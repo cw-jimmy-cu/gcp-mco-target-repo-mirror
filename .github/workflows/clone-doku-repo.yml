@@ -40,8 +40,9 @@ jobs:
           # Clean the target repository except for .git directory
           find . -mindepth 1 -not -name '.git' -exec rm -rf {} +
 
-          # Copy content from source repo to the target repo
-          cp -r ../source_repo/* .
+          # Create new folder
+          mkdir -p target_repo/source_content
 
-          # Add changes to git
-          git add .
+          # Copy content from source repo to the target repo
+          cp -r ../source_repo/* target_repo/source_content
+
