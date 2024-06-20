@@ -45,9 +45,3 @@ jobs:
 
           # Add changes to git
           git add .
-
-          # Commit changes
-          git commit -m "Sync with source repository" || echo "No changes to commit"
-
-          # Push changes
-          git push origin main
