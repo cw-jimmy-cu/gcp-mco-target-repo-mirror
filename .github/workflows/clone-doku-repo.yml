@@ -35,13 +35,66 @@ jobs:
         run: |
           git config --global user.email "jimmy.cu@pcg.io"
           git config --global user.name "Jimmy Cu"
-          mkdir -p target_repo/source_content
-          
-          # Copy content from source repo to the new directory in the target repo
-          cp -r source_repo/* target_repo/source_content
-          
-          # Change to target repo directory
+name: Clone Doku Repository
+
+on:
+  schedule:
+    - cron: '0 17 * * *'  # Tägliche Ausführung um 17 Uhr UTC
+  workflow_dispatch:  # Manuelle Auslösung
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source repository
+        uses: actions/checkout@v3
+        with:
+          repository: pcg-gcp/gcp-mco-repo-test-mirror
+          token: ${{ secrets.GCP_MCO_SOURCE_MIRROR_TOKEN }}
+          path: source_repo
+          fetch-depth: 0
+
+      - name: Checkout target repository
+        uses: actions/checkout@v3
+        with:
+          repository: cw-jimmy-cu/gcp-mco-target-repo-mirror
+          token: ${{ secrets.TEST_MCO_TARGET_MIRROR_TOKEN }}
+          path: target_repo
+          fetch-depth: 0
+
+      - name: Set up SSH for target repository
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_TARGET }}
+
+      - name: Sync source with target
+        run: |
+          git config --global user.email "jimmy.cu@pcg.io"
+          git config --global user.name "Jimmy Cu"
+
+          # Ensure we are in the right directory
           cd target_repo
+          
+          # Check if the source_content directory exists
+          if [ ! -d "source_content" ]; then
+            echo "source_content directory does not exist. Using cp to initialize."
+            mkdir -p source_content
+            cp -r ../source_repo/* source_content/
+          else
+            echo "source_content directory exists. Using rsync to sync."
+            rsync -av --delete ../source_repo/ source_content/
+          fi
+          
+          # Add changes to git
+          git add .
+          
+          # Commit changes
+          git commit -m "Sync with source repository"
+          
+          # Push changes
+          git push origin main
+
           
           # Add changes to git
           git add .
