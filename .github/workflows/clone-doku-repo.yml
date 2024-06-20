@@ -37,8 +37,8 @@ jobs:
           git config --global user.name "Jimmy Cu"
           mkdir -p target_repo/source_content
           
-          # Copy content from source repo to the new directory in the target repo
-          cp -r source_repo/* target_repo/source_content
+          # Synchronize source with target directory
+          rsync -av --delete source_repo/ target_repo/source_content/
           
           # Change to target repo directory
           cd target_repo
