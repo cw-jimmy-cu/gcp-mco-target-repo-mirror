@@ -33,9 +33,6 @@ jobs:
 
       - name: Sync source with target
         run: |
-          git config --global user.email "jimmy.cu@pcg.io"
-          git config --global user.name "Jimmy Cu"
-          
           # Clean the target repository except for .git directory
           find target_repo -mindepth 1 -not -name '.git' -exec rm -rf {} +
 
