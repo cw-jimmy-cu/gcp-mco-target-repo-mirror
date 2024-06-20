@@ -46,8 +46,14 @@ jobs:
           # Copy content from source repo to the target repo
           cp -r ../source_repo/* target_repo/source_content
 
-      - name: List directories for debugging
-        run: |
-          ls -al
-          ls -al source_repo
-          ls -al target_repo
+          # Ensure we are in the right directory
+          cd target_repo
+
+          # Add changes to git
+          git add .
+
+          # Commit changes
+          git commit -m "Sync with source repository" || echo "No changes to commit"
+
+          # Push changes
+          git push origin main
