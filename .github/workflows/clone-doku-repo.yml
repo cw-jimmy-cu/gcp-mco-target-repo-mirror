@@ -33,9 +33,7 @@ jobs:
 
       - name: Sync source with target
         run: |
-          git config --global user.email "jimmy.cu@pcg.io"
-          git config --global user.name "Jimmy Cu"
-          
+
           # Ensure we are in the right directory
           cd target_repo
           
