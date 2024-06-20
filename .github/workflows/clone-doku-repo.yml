@@ -33,21 +33,21 @@ jobs:
 
       - name: Sync source with target
         run: |
-          # Ensure we are in the right directory
+          git config --global user.email "jimmy.cu@pcg.io"
+          git config --global user.name "Jimmy Cu"
+          mkdir -p target_repo/source_content
+          
+          # Synchronize source with target directory
+          rsync -av --delete source_repo/ target_repo/source_content/
+          
+          # Change to target repo directory
           cd target_repo
           
-          # Clean the target repository except for .git directory
-          find . -mindepth 1 -not -name '.git' -exec rm -rf {} +
-
-          # Copy content from source repo to the target repo in a specific folder
-          mkdir -p source_content
-          cp -r ../source_repo/* .
-          
           # Add changes to git
-          git add .
+          git add source_content
 
           # Commit changes
           git commit -m "Sync with source repository" || echo "No changes to commit"
-
+          
           # Push changes
           git push origin main
