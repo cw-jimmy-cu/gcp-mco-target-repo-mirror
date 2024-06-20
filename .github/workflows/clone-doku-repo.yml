@@ -46,3 +46,5 @@ jobs:
           # Copy content from source repo to the target repo
           cp -r ../source_repo/* target_repo/source_content
 
+          # Add changes to git
+          git add .
