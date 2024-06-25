@@ -37,6 +37,16 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_TARGET }}
 
+      - name: Debugging - List source_repo contents
+        run: |
+          echo "Contents of source_repo:"
+          ls -la source_repo
+
+      - name: Debugging - List source_repo2 contents
+        run: |
+          echo "Contents of source_repo2:"
+          ls -la source_repo2
+
       - name: Sync source with target
         run: |
           git config --global user.email "jimmy.cu@pcg.io"
@@ -56,6 +66,10 @@ jobs:
             echo "source_content/${{ matrix.repo.subfolder }} directory exists. Using rsync to sync."
             rsync -av --delete ../${{ matrix.repo.path }}/ source_content/${{ matrix.repo.subfolder }}
           fi
+
+          # Debugging - List source_content contents
+          echo "Contents of source_content after sync:"
+          ls -la source_content
           
           # Add changes to git
           git add source_content/${{ matrix.repo.subfolder }}
@@ -67,4 +81,8 @@ jobs:
             git commit -m "Sync with source repository ${{ matrix.repo.name }}"
             # Push changes
             git push origin main
-          fi
+
+      - name: Debugging - List target_repo contents
+        run: |
+          echo "Contents of target_repo:"
+          ls -la target_repo/source_content
