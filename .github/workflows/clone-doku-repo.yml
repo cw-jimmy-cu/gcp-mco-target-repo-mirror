@@ -61,10 +61,6 @@ jobs:
             echo "source_content/${{ matrix.repo.subfolder }} directory exists. Using rsync to sync."
             rsync -av --delete ../${{ matrix.repo.path }}/ source_content/${{ matrix.repo.subfolder }}
           fi
-
-          # Debugging - List source_content contents
-          echo "Contents of source_content after sync:"
-          ls -la source_content/${{ matrix.repo.subfolder }}
           
           # Add changes to git
           git add source_content/${{ matrix.repo.subfolder }}
