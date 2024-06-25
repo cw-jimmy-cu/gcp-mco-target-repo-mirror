@@ -52,9 +52,9 @@ jobs:
             echo "source_content/${{ matrix.repo.subfolder }} directory does not exist. Using cp to initialize."
             mkdir -p source_content/${{ matrix.repo.subfolder }}
             cp -r ../${{ matrix.repo.path }}/* source_content/${{ matrix.repo.subfolder }}
-          # else
-          #   echo "source_content/${{ matrix.repo.subfolder }} directory exists. Using rsync to sync."
-          #   rsync -av --delete ../${{ matrix.repo.path }}/ source_content/${{ matrix.repo.subfolder }}
+          else
+            echo "source_content/${{ matrix.repo.subfolder }} directory exists. Using rsync to sync."
+            rsync -av --delete ../${{ matrix.repo.path }}/ source_content/${{ matrix.repo.subfolder }}
           fi
           
           # Add changes to git
