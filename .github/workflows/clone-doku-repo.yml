@@ -12,8 +12,8 @@ jobs:
     strategy:
       matrix:
         repo: 
-          - { name: 'pcg-gcp/gcp-mco-repo-test-mirror', token: 'GCP_MCO_SOURCE_MIRROR_TOKEN', path: 'source_repo' }
-          - { name: 'pcg-gcp/gcp-mco-additional-source-mirror-repo', token: 'GCP_MCO_ADDITIONAL_SOURCE_MIRROR_TOKEN', path: 'source_repo2' }
+          - { name: 'pcg-gcp/gcp-mco-repo-test-mirror', token: 'GCP_MCO_SOURCE_MIRROR_TOKEN', path: 'source_repo', subfolder: "repo1" }
+          - { name: 'pcg-gcp/gcp-mco-additional-source-mirror-repo', token: 'GCP_MCO_ADDITIONAL_SOURCE_MIRROR_TOKEN', path: 'source_repo2', subfolder: "repo2" }
 
     steps:
       - name: Checkout repository
@@ -48,11 +48,11 @@ jobs:
           # Check if the source_content directory exists
           if [ ! -d "source_content" ]; then
             echo "source_content directory does not exist. Using cp to initialize."
-            mkdir -p source_content
-            cp -r ../${{ matrix.repo.path }}/* source_content/
+            mkdir -p source_content/${{ matrix.repo.subfolder }}
+            cp -r ../${{ matrix.repo.path }}/* source_content/${{ matrix.repo.subfolder }}
           else
             echo "source_content directory exists. Using rsync to sync."
-            rsync -av --delete ../${{ matrix.repo.path }}/ source_content/
+            rsync -av --delete ../${{ matrix.repo.path }}/ source_content/${{ matrix.repo.subfolder }}
           fi
           
           # Add changes to git
