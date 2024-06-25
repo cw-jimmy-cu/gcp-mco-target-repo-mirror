@@ -45,31 +45,22 @@ jobs:
           # Ensure we are in the right directory
           cd target_repo
           
-          # Check if the source_content directory exists
-          if [ ! -d "source_content" ]; then
-            echo "source_content directory does not exist. Using cp to initialize."
-            mkdir -p source_content
-            cp -r ../source_repo/* source_content/
-          else
-            echo "source_content directory exists. Using rsync to sync."
-            rsync -av --delete ../source_repo/ source_content/
-          fi
+          # Create the source_content directory if it doesn't exist
+          mkdir -p source_content
 
-          # Repeat for the second source repository
-          if [ ! -d "source_content2" ]; then
-            echo "source_content2 directory does not exist. Using cp to initialize."
-            mkdir -p source_content2
-            cp -r ../source_repo2/* source_content2/
-          else
-            echo "source_content2 directory exists. Using rsync to sync."
-            rsync -av --delete ../source_repo2/ source_content2/
-          fi
-
+          # Copy content from each source repo into the source_content directory
+          for repo in ../source_repo ../source_repo2; do
+            cp -r $repo/* source_content/
+          done
+          
           # Add changes to git
           git add .
-          
-          # Commit changes
-          git commit -m "Sync with source repository"
-          
-          # Push changes
-          git push origin main
+
+          # Commit changes, if any
+          if git diff-index --quiet HEAD; then
+            echo "No changes to commit"
+          else
+            git commit -m "Sync with source repositories"
+            # Push changes
+            git push origin main
+          fi
