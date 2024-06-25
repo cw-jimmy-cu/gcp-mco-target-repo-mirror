@@ -64,7 +64,7 @@ jobs:
 
           # Debugging - List source_content contents
           echo "Contents of source_content after sync:"
-          ls -la source_content
+          ls -la source_content/${{ matrix.repo.subfolder }}
           
           # Add changes to git
           git add source_content/${{ matrix.repo.subfolder }}
