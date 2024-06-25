@@ -40,7 +40,6 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_TARGET }}
 
       - name: Sync source with target
-        if: ${{ matrix.repo == fromJson('{"name":"pcg-gcp/gcp-mco-repo-test-mirror","token":"GCP_MCO_SOURCE_MIRROR_TOKEN","path":"source_repo"}') }}
         run: |
           git config --global user.email "jimmy.cu@pcg.io"
           git config --global user.name "Jimmy Cu"
