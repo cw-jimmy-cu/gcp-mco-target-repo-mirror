@@ -58,11 +58,9 @@ jobs:
           # Add changes to git
           git add .
           
-          # Commit changes, if any
-          if git diff-index --quiet HEAD; then
-            echo "No changes to commit"
-          else
-            git commit -m "Sync with source repositories"
-            # Push changes
-            git push origin main
-          fi
+          # Commit changes
+          git commit -m "Sync with source repository"
+          
+          # Push changes
+          git pull
+          git push 
