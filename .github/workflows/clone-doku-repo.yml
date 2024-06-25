@@ -48,6 +48,8 @@ jobs:
           # Create the source_content directory if it doesn't exist
           mkdir -p source_content
 
+          ls
+
           # Copy content from each source repo into the source_content directory
           for repo in ../source_repo ../source_repo2; do
             cp -r $repo/* source_content/
