@@ -37,11 +37,6 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_TARGET }}
 
-      - name: Debugging - List source_repo contents
-        run: |
-          echo "Contents of source_repo:"
-          ls -la ${{ matrix.repo.path }}
-
       - name: Sync source with target
         run: |
           git config --global user.email "jimmy.cu@pcg.io"
@@ -72,8 +67,4 @@ jobs:
             git commit -m "Sync with source repository ${{ matrix.repo.name }}"
             # Push changes
             git push origin main
-
-      - name: Debugging - List target_repo contents
-        run: |
-          echo "Contents of target_repo:"
-          ls -la target_repo/source_content
+          fi
