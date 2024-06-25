@@ -44,6 +44,8 @@ jobs:
 
           # Ensure we are in the right directory
           cd target_repo
+
+          git pull origin main
           
           # Check if the source_content directory exists
           if [ ! -d "source_content" ]; then
@@ -57,8 +59,7 @@ jobs:
           
           # Add changes to git
           git add .
-          git pull
-          
+
           # Commit changes, if any
           if git diff-index --quiet HEAD; then
             echo "No changes to commit"
