@@ -40,12 +40,7 @@ jobs:
       - name: Debugging - List source_repo contents
         run: |
           echo "Contents of source_repo:"
-          ls -la source_repo
-
-      - name: Debugging - List source_repo2 contents
-        run: |
-          echo "Contents of source_repo2:"
-          ls -la source_repo2
+          ls -la ${{ matrix.repo.path }}
 
       - name: Sync source with target
         run: |
