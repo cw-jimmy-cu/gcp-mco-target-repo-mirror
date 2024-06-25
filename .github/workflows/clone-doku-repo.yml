@@ -48,23 +48,23 @@ jobs:
           git pull origin main
           
           # Check if the source_content directory exists
-          if [ ! -d "source_content" ]; then
-            echo "source_content directory does not exist. Using cp to initialize."
+          if [ ! -d "source_content/${{ matrix.repo.subfolder }}" ]; then
+            echo "source_content/${{ matrix.repo.subfolder }} directory does not exist. Using cp to initialize."
             mkdir -p source_content/${{ matrix.repo.subfolder }}
             cp -r ../${{ matrix.repo.path }}/* source_content/${{ matrix.repo.subfolder }}
           else
-            echo "source_content directory exists. Using rsync to sync."
+            echo "source_content/${{ matrix.repo.subfolder }} directory exists. Using rsync to sync."
             rsync -av --delete ../${{ matrix.repo.path }}/ source_content/${{ matrix.repo.subfolder }}
           fi
           
           # Add changes to git
-          git add .
+          git add source_content/${{ matrix.repo.subfolder }}
 
           # Commit changes, if any
           if git diff-index --quiet HEAD; then
             echo "No changes to commit"
           else
-            git commit -m "Sync with source repositories"
+            git commit -m "Sync with source repository ${{ matrix.repo.name }}"
             # Push changes
             git push origin main
           fi
