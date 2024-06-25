@@ -49,6 +49,8 @@ jobs:
           mkdir -p source_content
 
           ls
+          cd ..
+          ls
 
           # Copy content from each source repo into the source_content directory
           for repo in ../source_repo ../source_repo2; do
