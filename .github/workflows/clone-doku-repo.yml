@@ -49,10 +49,10 @@ jobs:
           if [ ! -d "source_content" ]; then
             echo "source_content directory does not exist. Using cp to initialize."
             mkdir -p source_content
-            cp -r ../source_repo/* source_content/
+            cp -r ../${{ matrix.repo.path }}/* source_content/
           else
             echo "source_content directory exists. Using rsync to sync."
-            rsync -av --delete ../source_repo/ source_content/
+            rsync -av --delete ../${{ matrix.repo.path }}/ source_content/
           fi
           
           # Add changes to git
