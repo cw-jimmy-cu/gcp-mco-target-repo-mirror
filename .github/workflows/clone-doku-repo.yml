@@ -62,4 +62,5 @@ jobs:
           git commit -m "Sync with source repository"
           
           # Push changes
+          git pull
           git push origin main
