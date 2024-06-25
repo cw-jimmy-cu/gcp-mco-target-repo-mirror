@@ -25,7 +25,6 @@ jobs:
           fetch-depth: 0    # avoid shallow clone
 
       - name: Checkout target repository
-        if: ${{ matrix.repo == fromJson('{"name":"pcg-gcp/gcp-mco-repo-test-mirror","token":"GCP_MCO_SOURCE_MIRROR_TOKEN","path":"source_repo"}') }}
         uses: actions/checkout@v3
         with:
           repository: cw-jimmy-cu/gcp-mco-target-repo-mirror
@@ -34,7 +33,6 @@ jobs:
           fetch-depth: 0   # avoid shallow clone
 
       - name: Set up SSH for target repository
-        if: ${{ matrix.repo == fromJson('{"name":"pcg-gcp/gcp-mco-repo-test-mirror","token":"GCP_MCO_SOURCE_MIRROR_TOKEN","path":"source_repo"}') }}
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_TARGET }}
